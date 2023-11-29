@@ -18,6 +18,12 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Name is required."],
     },
+    collections:{
+      type: 
+        [{type: mongoose.Schema.Types.ObjectId,
+        ref:"Playlist"}],
+      default: [{ name: 'Favourites' , content:[]}]
+    }
   }
  
 );
