@@ -2,7 +2,7 @@ const { Schema, model, } = require("mongoose");
 const mongoose = require("mongoose");
 const Playlist = require("./Playlist.model")
 // TODO: Please make sure you edit the User model to whatever makes sense in this case
-const movieSchema = new Schema(
+const userSchema = new Schema(
   {
     email: {
       type: String,
@@ -13,7 +13,8 @@ const movieSchema = new Schema(
     },
     password: {
       type: String,
-      required: [true, "Password is required."],
+      required: [true, "Password is required."]
+    },
     email: {
       type: String,
       required: [true, "Email is required."],
@@ -21,11 +22,6 @@ const movieSchema = new Schema(
       lowercase: true,
       trim: true,
     },
-    password: {
-      type: String,
-      required: [true, "Password is required."],
-    },
-    name: {
     name: {
       type: String,
       required: [true, "Name is required."],
