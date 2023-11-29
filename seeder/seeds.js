@@ -1,7 +1,6 @@
 const IMG_URL = 'https://image.tmdb.org/t/p/w500'
 const apiKey = 'd1b2ab92e0024d87c581a88cf097ea66'
 const lang = 'en'
-
 const path = require("path");
 const mongoose = require("mongoose")
 const Movie = require("../models/Movie.model");
