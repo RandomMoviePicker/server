@@ -1,5 +1,6 @@
-const { Schema, model } = require("mongoose");
-
+const { Schema, model, } = require("mongoose");
+const mongoose = require("mongoose");
+const Playlist = require("./Playlist.model")
 // TODO: Please make sure you edit the User model to whatever makes sense in this case
 const userSchema = new Schema(
   {
@@ -18,12 +19,11 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Name is required."],
     },
-    collections:{
-      type: 
+    collections: 
         [{type: mongoose.Schema.Types.ObjectId,
-        ref:"Playlist"}],
-      default: [{ name: 'Favourites' , content:[]}]
-    }
+        ref:"Playlist"}]
+  
+    
   }
  
 );

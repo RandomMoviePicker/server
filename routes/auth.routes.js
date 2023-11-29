@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
+const Playlist = require("../models/Playlist.model.js")
+
 // ℹ️ Handles password encryption
 const bcrypt = require("bcrypt");
 
@@ -64,12 +66,20 @@ router.post("/signup", (req, res, next) => {
       // Deconstruct the newly created user object to omit the password
       // We should never expose passwords publicly
       const { email, name, _id } = createdUser;
-
+      
       // Create a new object that doesn't expose the password
       const user = { email, name, _id };
-
+      
       // Send a json response containing the user object
       res.status(201).json({ user: user });
+ 
+      return Playlist.create({name:"Favourites",content:[],owner: _id})
+      .then((playlist)=>{
+        const userId = playlist.owner.toString();
+        const playlistId = playlist._id.toString();
+        return User.findByIdAndUpdate(userId, {$push: { collections: playlistId}})
+
+      })
     })
     .catch((err) => next(err)); // In this case, we send error handling to the error handling middleware.
 });
