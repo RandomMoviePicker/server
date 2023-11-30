@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const Movie = require("../models/Movie.model");
-const Playlist = require("../models/Playlist.model");
 
 
 // all this routes have "/movies" as a prefix...
@@ -24,24 +23,12 @@ router.get("/filter", async(req, res, next) =>{
         console.log(genresObj);
         const includegenresArr = genresObj.included.split(",")
         const excludegenresArr = genresObj.excluded.split(",")
-        // console.log(genresArr)
-        // const filteredMovies = await Movie.find({genre: {$in: genresArr}})
         const filteredMovie = await Movie.aggregate([{ $match: {genre: {$in: includegenresArr, $nin: excludegenresArr}}},{$sample: {size:1}}])
         res.status(200).send(filteredMovie);
     }catch(error){
         console.error(error)
     }
 })
-router.get("/favourites/:id", async(req, res, next) =>{
-    try{
-        const userId = req.params.id;
-        const userFavs = await Playlist.find({name: "favourites", owner: userId})
-        res.status(200).send(userFavs);
-    }catch(error){
-        console.error(error)
-    }
-})
-
 
 router.get("/randomMovie", async(req, res, next) =>{
     try{
