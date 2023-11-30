@@ -14,7 +14,9 @@ router.get("/", async(req, res, next) => {
         console.log(error)
     }
 
-  
+    
+
+
 });
 router.get("/filter", async(req, res, next) =>{
     try{
@@ -35,6 +37,15 @@ router.get("/favourites/:id", async(req, res, next) =>{
     }
 })
 
+
+router.get("/randomMovie", async(req, res, next) =>{
+    try{
+        const randomMovie = await Movie.aggregate([{$sample:{size:1}}])
+        res.status(200).send(randomMovie);
+    }catch(error){
+        console.error(error)
+    }
+})
 
     
 
