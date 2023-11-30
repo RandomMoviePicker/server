@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Movie = require("../models/Movie.model");
-
+const Playlist = require("../models/Playlist.model");
 
 // all this routes have "/movies" as a prefix...
 router.get("/", async(req, res, next) => {
@@ -34,6 +34,16 @@ router.get("/randomMovie", async(req, res, next) =>{
     try{
         const randomMovie = await Movie.aggregate([{$sample:{size:1}}])
         res.status(200).send(randomMovie);
+    }catch(error){
+        console.error(error)
+    }
+})
+
+router.get("/favourites/:id", async(req, res, next) =>{
+    try{
+        const userId = req.params.id;
+        const userFavs = await Playlist.find({name: "favourites", owner: userId})
+        res.status(200).send(userFavs);
     }catch(error){
         console.error(error)
     }
