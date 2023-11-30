@@ -75,5 +75,14 @@ router.post("/favourites", async(req, res, next) =>{
     }
 })
 
+router.post("/createPlaylist", async(req, res, next)=>{
+    const {userId, name} = req.body;
+    try{
+         await Playlist.create({name: name, owner: userId})
+    }
+    catch(error){
+        console.error(error);
+    }
+})
 
 module.exports = router;
