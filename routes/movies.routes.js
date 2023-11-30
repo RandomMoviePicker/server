@@ -13,13 +13,24 @@ router.get("/", async(req, res, next) => {
         console.log(error)
     }
 
-  
+    
+
+
 });
 router.get("/filter", async(req, res, next) =>{
     try{
         const genres = req.body;
         const filteredMovies = await Movie.find({genre: {$in: filteredMovies}})
         res.status(200).send(filteredMovies);
+    }catch(error){
+        console.error(error)
+    }
+})
+
+router.get("/randomMovie", async(req, res, next) =>{
+    try{
+        const randomMovie = await Movie.aggregate([{$sample:{size:1}}])
+        res.status(200).send(randomMovie);
     }catch(error){
         console.error(error)
     }
