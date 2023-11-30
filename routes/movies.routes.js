@@ -19,9 +19,14 @@ router.get("/", async(req, res, next) => {
 });
 router.get("/filter", async(req, res, next) =>{
     try{
-        const genres = req.body;
-        const filteredMovies = await Movie.find({genre: {$in: filteredMovies}})
-        res.status(200).send(filteredMovies);
+        const genresObj = req.query;
+        console.log(genresObj);
+        const includegenresArr = genresObj.included.split(",")
+        const excludegenresArr = genresObj.excluded.split(",")
+        // console.log(genresArr)
+        // const filteredMovies = await Movie.find({genre: {$in: genresArr}})
+        const filteredMovie = await Movie.aggregate([{ $match: {genre: {$in: includegenresArr, $nin: excludegenresArr}}},{$sample: {size:1}}])
+        res.status(200).send(filteredMovie);
     }catch(error){
         console.error(error)
     }
