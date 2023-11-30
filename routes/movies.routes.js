@@ -48,8 +48,32 @@ router.get("/favourites/:id", async(req, res, next) =>{
         console.error(error)
     }
 })
+ 
+router.post("/favourites", async(req, res, next) =>{
+    try{
+        const {userId, movieId} = req.body;
+        
+        const filter = {
+            $and: [
+              { name: "favourites" },//this name needs to be passed in body
+              { owner: userId },
+            ]
+          };
+          
+          const update = { $push: { content: movieId } };
+          
+          const options = {
+            new: true,
+            upsert: true,
+          };
+          
+          const favMovie = await Playlist.findOneAndUpdate(filter, update, options);
 
-    
+        res.status(200).send(`The movie with the id: ${movieId} has been added!`);
+    }catch(error){
+        console.error(error)
+    }
+})
 
 
 module.exports = router;
