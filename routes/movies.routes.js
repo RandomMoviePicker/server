@@ -39,23 +39,15 @@ router.get("/randomMovie", async(req, res, next) =>{
     }
 })
 
-router.get("/favourites/:id", async(req, res, next) =>{
-    try{
-        const userId = req.params.id;
-        const userFavs = await Playlist.find({name: "favourites", owner: userId})
-        res.status(200).send(userFavs);
-    }catch(error){
-        console.error(error)
-    }
-})
- 
+
+ // this its on the <3
 router.post("/favourites", async(req, res, next) =>{
     try{
         const {userId, movieId} = req.body;
         
         const filter = {
             $and: [
-              { name: "favourites" },//this name needs to be passed in body
+              { name: "favourites" },
               { owner: userId },
             ]
           };
