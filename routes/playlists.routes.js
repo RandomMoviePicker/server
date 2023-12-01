@@ -44,9 +44,9 @@ router.get("/:playListName/:userId/:movieId", async (req, res, next) => {
         const playListName = req.params.playListName;
 
         const playlist = await Playlist.findOne({ name: playListName, owner: userId }).populate("content")
-        const updatedList = await Playlist.findByIdAndUpdate(playlist._id, { $pull: { content: movieId } }, { new: true });
+        const updatedList = await Playlist.findByIdAndUpdate(playlist._id, { $pull: { content: movieId } }, { new: true }).populate("content");
         console.log("are you null??",updatedList)
-        res.status(200).send(updatedList);
+        res.status(200).send(updatedList.content);
     }
     catch (error) {
         console.log(error);
