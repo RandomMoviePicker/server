@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const Playlist = require("../models/Playlist.model");
-const User = require("../models/User.model")
 
 router.post("/create", async (req, res, next) => {
     const { userId, name } = req.body;
@@ -43,12 +42,28 @@ router.get("/:playListName/:userId/:movieId", async (req, res, next) => {
         const userId = req.params.userId;
         const playListName = req.params.playListName;
 
-        const playlist = await Playlist.findOne({ name: playListName, owner: userId }).populate("content")
+        const playlist = await Playlist.findOne({ name: playListName, owner: userId }).populate("content")//??is necessary??(populate)
         const updatedList = await Playlist.findByIdAndUpdate(playlist._id, { $pull: { content: movieId } }, { new: true }).populate("content");
-        console.log("are you null??",updatedList)
         res.status(200).send(updatedList.content);
     }
     catch (error) {
+        console.log(error);
+    }
+})
+router.delete("/:playlistId", async( req, res, next) => {
+    const playlistId = req.params.playlistId;
+    try{
+        const playlist = await Playlist.findById(playlistId);
+
+        playlist.content.forEach(async(eachMovie)=>{
+            console.log(eachMovie)
+            await Playlist.findByIdAndUpdate(playlist._id, {$pull:{ content: eachMovie }})
+        })
+        await Playlist.deleteOne({_id:playlistId})
+
+    res.status(200).send("playlist deleted")
+    }
+    catch(error){
         console.log(error);
     }
 })
