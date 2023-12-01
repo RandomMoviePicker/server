@@ -73,7 +73,7 @@ router.post("/signup", (req, res, next) => {
       // Send a json response containing the user object
       res.status(201).json({ user: user });
  
-      return Playlist.create({name:"Favourites",content:[],owner: _id})
+      return Playlist.create({name:"favourites",content:[],owner: _id})
       .then((playlist)=>{
         const userId = playlist.owner.toString();
         const playlistId = playlist._id.toString();
