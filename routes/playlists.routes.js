@@ -5,7 +5,7 @@ const Playlist = require("../models/Playlist.model");
 router.post("/create", async (req, res, next) => {
     const { userId, name } = req.body;
     try {
-        await Playlist.create({ name: name, owner: userId })
+        await Playlist.create({ name: name, owner: userId })//we need to add the playlist  to the user array of playlists
     }
     catch (error) {
         console.error(error);
