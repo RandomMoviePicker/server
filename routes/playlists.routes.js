@@ -1,11 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const Playlist = require("../models/Playlist.model");
+const User = require("../models/User.model")
 
 router.post("/create", async (req, res, next) => {
     const { userId, name } = req.body;
     try {
-        await Playlist.create({ name: name, owner: userId })
+        const playlist = await Playlist.create({ name: name, owner: userId })
+        await User.findByIdAndUpdate(userId, {$push: { collections: playlist._id}})
     }
     catch (error) {
         console.error(error);
