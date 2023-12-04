@@ -28,7 +28,6 @@ const trimedString = name.trim()
 router.get("/", async (req, res, next) => {
     
     try {
-        console.log("llego")
         const { userId } = req.query;
         const data = await Playlist.find({ owner: userId });
         res.status(200).send(data)
