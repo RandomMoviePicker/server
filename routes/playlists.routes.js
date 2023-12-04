@@ -5,17 +5,28 @@ const User = require("../models/User.model")
 
 router.post("/create", async (req, res, next) => {
     const { userId, name } = req.body;
-    try {
-        const playlist = await Playlist.create({ name: name, owner: userId })
-        await User.findByIdAndUpdate(userId, {$push: { collections: playlist._id}})
+const trimedString = name.trim()
+
+    const nameUsed = await Playlist.find({name:trimedString, owner:userId });
+    
+    if(nameUsed.length === 0 && trimedString ){
+        try {
+            const playlist = await Playlist.create({ name: trimedString, owner: userId })
+            await User.findByIdAndUpdate(userId, {$push: { collections: playlist._id}})
+            res.status(200).send("playlist created")
+            
+        }
+        catch (error) {
+            console.error(error);
+        }
     }
-    catch (error) {
-        console.error(error);
+    else{
+        res.status(403).json({message:"This name is invalid or already used"})
     }
 })
 
 router.get("/", async (req, res, next) => {
-    // console.log(req.query)
+    
     try {
         const { userId } = req.query;
         const data = await Playlist.find({ owner: userId });
