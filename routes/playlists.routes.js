@@ -104,7 +104,7 @@ router.post("/addMovie", async (req,res,next)=>{
     const {movieId, selectedPlaylist, userId} = req.body
     try{
         const playlist = await Playlist.findOne({ name: selectedPlaylist, owner: userId });
-        const updatedPlaylist = await Playlist.findByIdAndUpdate(playlist._id, { $push: { content: movieId } }, { new: true });
+        const updatedPlaylist = await Playlist.findByIdAndUpdate(playlist?._id, { $push: { content: movieId } }, { new: true });
         res.status(200).send(`The movie with the id: ${movieId} has been added!`);
 
     }

@@ -70,7 +70,7 @@ const fetchPages = async () =>{
     try{
 
         await mongoose.connect(mongo_uri)
-        for(let page = 3; page <= 100; page++)
+        for(let page = 101; page <= 300; page++)
         {
             const res = await getPopularMovies(page);
             const cleanArr =  cleanMovies(res.results)
