@@ -81,6 +81,19 @@ router.delete("/:playlistId", async( req, res, next) => {
     }
 })
 
+router.put("/edit", async(req, res, next) =>{
+    const {playlistId, name} = req.body;
+    console.log(req.body)
+    try{
+       const updated = await Playlist.findByIdAndUpdate(playlistId, {name})
+       res.status(200).send("playlist updated")
+    }
+    catch(error){
+        console.error(error);
+        res.status(400).send("something went wrong...")
+    }
+
+})
 
 
 
