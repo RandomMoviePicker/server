@@ -50,21 +50,27 @@ router.get("/:playListName/:id", async (req, res, next) => {
 })
 
 router.get("/:playListName/:userId/:movieId", async (req, res, next) => {
-    try {
-        const movieId = req.params.movieId;
-        const userId = req.params.userId;
-        const playListName = req.params.playListName;
+    const movieId = req.params.movieId;
+    const userId = req.params.userId;
+    const playListName = req.params.playListName;
 
-        const playlist = await Playlist.findOne({ name: playListName, owner: userId }).populate("content")//??is necessary??(populate)
+    if (playListName !== "favourites"){
+    try {
+
+        const playlist = await Playlist.findOne({ name: playListName, owner: userId }).populate("content")
         const updatedList = await Playlist.findByIdAndUpdate(playlist._id, { $pull: { content: movieId } }, { new: true }).populate("content");
         res.status(200).send(updatedList.content);
     }
     catch (error) {
         console.log(error);
     }
+    }
+
 })
-router.delete("/:playlistId", async( req, res, next) => {
+router.delete("/:playlistId/:name", async( req, res, next) => {
     const playlistId = req.params.playlistId;
+    const name = req.params.name;
+    if (name !== "favourites"){
     try{
         const playlist = await Playlist.findById(playlistId);
 
@@ -78,6 +84,7 @@ router.delete("/:playlistId", async( req, res, next) => {
     }
     catch(error){
         console.log(error);
+    }
     }
 })
 
