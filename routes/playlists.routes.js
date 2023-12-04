@@ -92,7 +92,18 @@ router.put("/edit", async(req, res, next) =>{
         console.error(error);
         res.status(400).send("something went wrong...")
     }
+})
+router.post("/addMovie", async (req,res,next)=>{
+    const {movieId, selectedPlaylist, userId} = req.body
+    try{
+        const playlist = await Playlist.findOne({ name: selectedPlaylist, owner: userId });
+        const updatedPlaylist = await Playlist.findByIdAndUpdate(playlist._id, { $push: { content: movieId } }, { new: true });
+        res.status(200).send(`The movie with the id: ${movieId} has been added!`);
 
+    }
+    catch(error){
+        console.log(error)
+    }
 })
 
 
