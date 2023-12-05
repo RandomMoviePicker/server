@@ -18,6 +18,7 @@ const trimedString = name.trim()
         }
         catch (error) {
             console.error(error);
+            res.status(400).send({message:"something went wrong..."})
         }
     }
     else{
@@ -89,17 +90,28 @@ router.delete("/:playlistId/:name", async( req, res, next) => {
 })
 
 router.put("/edit", async(req, res, next) =>{
-    const {playlistId, name} = req.body;
-    console.log(req.body)
+    const {playlistId, name, userId} = req.body;
+    const trimedString = name.trim()
+
+    const nameUsed = await Playlist.find({name:trimedString, owner:userId });
+
+    if(nameUsed.length === 0 && trimedString ){
+
+
     try{
        const updated = await Playlist.findByIdAndUpdate(playlistId, {name})
        res.status(200).send("playlist updated")
     }
     catch(error){
         console.error(error);
-        res.status(400).send("something went wrong...")
+        res.status(400).send({message:"something went wrong..."})
     }
+}
+else{
+    res.status(403).json({message:"This name is invalid or already used"})
+}
 })
+
 router.post("/addMovie", async (req,res,next)=>{
     const {movieId, selectedPlaylist, userId} = req.body
     try{
