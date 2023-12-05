@@ -35,19 +35,4 @@ router.get("/randomMovie", async (req, res, next) => {
     }
 })
 
-
-// this its on the <3
-router.post("/favourites", async (req, res, next) => {
-    try {
-        const { userId, movieId } = req.body;
-        const favMovie = await Playlist.findOne({ name: "favourites", owner: userId });
-        const updatedFavMovie = await Playlist.findByIdAndUpdate(favMovie._id, { $push: { content: movieId } }, { new: true });
-        res.status(200).send(`The movie with the id: ${movieId} has been added!`);
-    } catch (error) {
-        console.error(error)
-    }
-})
-
-
-
 module.exports = router;
