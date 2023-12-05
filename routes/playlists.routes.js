@@ -103,16 +103,28 @@ router.put("/edit", async(req, res, next) =>{
 router.post("/addMovie", async (req,res,next)=>{
     const {movieId, selectedPlaylist, userId} = req.body
     try{
+        let isRepeated = false;
         const playlist = await Playlist.findOne({ name: selectedPlaylist, owner: userId });
-        const updatedPlaylist = await Playlist.findByIdAndUpdate(playlist?._id, { $push: { content: movieId } }, { new: true });
-        res.status(200).send(`The movie with the id: ${movieId} has been added!`);
+        console.log(playlist);
+        playlist.content.map((eachMovie)=>{
+            if(eachMovie == movieId)
+                isRepeated = true;
+        })
+        if(!isRepeated)
+        {
+            const updatedPlaylist = await Playlist.findByIdAndUpdate(playlist?._id, { $push: { content: movieId } }, { new: true });
+            res.status(200).send({message:`The movie has been added!`});
+
+        }
+        else{
+            res.status(403).json({message:`The movie is already in the list!`});
+        }
 
     }
     catch(error){
         console.log(error)
     }
 })
-
 
 
 
