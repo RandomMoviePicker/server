@@ -29,7 +29,7 @@ router.get("/", async (req, res, next) => {
 
     try {
         const { userId } = req.query;
-        const data = await Playlist.find({ owner: userId });
+        const data = await Playlist.find({ owner: userId }).populate("content");
         res.status(200).send(data)
     }
     catch (error) {
