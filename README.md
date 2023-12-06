@@ -23,6 +23,15 @@ Remember to update this readme file with your project description and routes.
 
 | Method | Path | Description |
 |--------|------|-------------|
-| GET | /users | Sends back an array of all the users |
-| GET | /users/:id | Sends back a single user object |
-| POST | /users | Creates a new user |
+| POST | /auth/signup | Sends the user information to the DB and checks if the input is correct in order to save it |
+| POST | /auth/login | Search in the DB if we have a user with those credentials|
+| GET | /auth/verify | Used to verify JWT stored on the client|
+| GET | /movies/filter | Sends back a random movie from the DB applying filters |
+| GET | /movies/randomMovie | Sends back a random movie from the DB |
+| GET | /playlists | Get all the playlists of a user |
+| POST | /playlists/create | Creates a new playlist|
+| GET | /playlists/:playListName/:id | Gets a specific playlist and its content|
+| GET | /playlists/:playListName/:userId/:movieId | Removes a movie from a specific playlist |
+| DELETE | /playlists/:playListId/:name | Deletes a playlist and its content |
+| PUT | /playlists/edit | Edits the name of a playlist |
+| POST | /playlists/addMovie | Adds a movie to a specific playlist |
