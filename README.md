@@ -1,9 +1,16 @@
-# Project 3: Full Stack Web App
+# PickaMovie: Full Stack Web App
 
-This is the initial setup for project 3.
+This project is made using the MERN stack
+Here is the link to the deployed app : https://reliable-squirrel-f831ed.netlify.app/
 
-Fork this repository to your org account, then clone it to your local machine.
-The rest of the team will clone the forked repository to their local machines as well.
+# About this project:
+
+This app's purpose is to select a random movie extracted from the TMDB (the movie data base) API. The user can press the big red button on the home page and receive a result or go to filters and discard the genres he/she is not interested in.
+
+The app also allows saving the movie results in a favourites playlist and visit its content. He/She also can create new playlists of movies, and customize the name later, also add and delete movies from it.
+
+Some of the features require the user to be logged in, those are: filtering, adding to favourites and creating new playlists. The user can easily sign up and log in or keep using the big red button to get a random movie without filtering.
+
 
 ## Setup dotenv
 Once you have cloned the repository, create a `.env` file in the root of the project.
@@ -17,9 +24,8 @@ MONGODB_URI=mongodb+srv://yourMongoDBURI
 By default the port is set to 5005, but you can change it to whatever you want. Just make sure that you change it in the frontend as well (fetch or axios calls).
 The origin is set to `http://localhost:5173` which is the port that the react app will run on with vite. Once deployed, you will need to change this to the domain of your deployed app.
 
-Remember to update this readme file with your project description and routes.
 
-## Routes table example
+## Routes table 
 
 | Method | Path | Description |
 |--------|------|-------------|
